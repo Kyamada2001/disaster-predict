@@ -7,12 +7,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Object>
 ) {
-    console.log("開始")
     const currBounds = req.body;
-    console.log(req.body)
     const FilePath = '/public/points/evacuation.geojson'
     const filePath = path.join(process.cwd(), FilePath);
-    console.log(fs.readFileSync(filePath, 'utf8'))
     const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
 
     const filteredPoints: any = [];
@@ -27,7 +24,6 @@ export default async function handler(
             filteredPoints.push(point);
           }
     });
-    console.log(filteredPoints)
 
     res.status(STATUS_CODES.SUCCESS).json({
         points: filteredPoints
