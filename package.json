@@ -21,6 +21,7 @@
     "@types/shapefile": "^0.6.1",
     "autoprefixer": "10.4.14",
     "aws-sdk": "^2.1399.0",
+    "axios": "^1.4.0",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "isomorphic-unfetch": "^4.0.2",

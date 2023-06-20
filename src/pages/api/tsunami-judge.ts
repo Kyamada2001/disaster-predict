@@ -4,7 +4,8 @@ import path from 'path';
 import * as turf from '@turf/turf';
 import { Octokit } from "@octokit/rest";
 import L, { polygon } from 'leaflet';
-import AWS from 'aws-sdk';
+import AWS, { S3 } from 'aws-sdk';
+import axios from 'axios';
 import { ERROR_CODES, PrefectureCodes, STATUS_CODES } from '../../consts/codes';
 
 type currPoint = {
@@ -81,6 +82,8 @@ export default async function handler(
     const S3_fileName: any= PrefectureCodes.filter((prefInfo) => {
       return prefInfo.code == prefectureCode
     })[0].S3_file;
+    const domain = process.env.DOMAIN;
+    const path = process.env.CLOUDFRONT_PATH;
 
     if(!S3_fileName) {
       // 国土数値情報サイトが公開していない場合
@@ -90,7 +93,13 @@ export default async function handler(
     }
 
     console.log("S3バケット呼び出し")
-    const data: any = await getGeoJSONFromS3(S3_fileName)
+    console.log(S3_fileName)
+    const url = domain! + path! + S3_fileName;
+    console.log(url)
+    const response: any = await axios.get(url)
+    console.log(response)
+    const data: any = response.data;
+
     console.log(data)
     if(!data && !data.features) {
       res.status(STATUS_CODES.BAD).json({
