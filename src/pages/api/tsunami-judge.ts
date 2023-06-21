@@ -20,9 +20,7 @@ const s3 = new AWS.S3({
 });
 
 async function getGeoJSONFromS3(S3_fileName: String){
-  console.log(S3_fileName)
   const S3_path = 'tsunami-polygons/tsunami-polygons/' + S3_fileName
-  console.log(S3_path)
   const params: any = {
     Bucket: process.env.BACKET_NAME,
     Key: S3_path // バケット内のpath
@@ -53,15 +51,10 @@ export default async function handler(
 ) {
   const currPoint: currPoint = req.body as currPoint;
 
-  console.log(req.body)
   // 県情報を取得
   new Promise(async (resolve, reject) => {
-    console.log(currPoint)
     const response = await fetch(`https://mreversegeocoder.gsi.go.jp/reverse-geocoder/LonLatToAddress?lat=${currPoint.latitude}&lon=${currPoint.longitude}`);
-    console.log("位置情報取得")
     const data = await response.json();
-    console.log("データ取得")
-    console.log(data)
     if (!data.results) {
       res.status(STATUS_CODES.BAD).json({
         error_code: ERROR_CODES.OUTSIDE_JAPAN
@@ -92,15 +85,10 @@ export default async function handler(
       })
     }
 
-    console.log("S3バケット呼び出し")
-    console.log(S3_fileName)
     const url = domain! + path! + S3_fileName;
-    console.log(url)
     const response: any = await axios.get(url)
-    console.log(response)
     const data: any = response.data;
 
-    console.log(data)
     if(!data && !data.features) {
       res.status(STATUS_CODES.BAD).json({
         error_code: ERROR_CODES.SERVER_ERROR,

@@ -7,6 +7,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import useSWR from 'swr';
 import { type } from 'os';
 
 L.Icon.Default.mergeOptions({
@@ -25,10 +26,38 @@ const Map = (props: any) => {
     iconSize: [50, 50],
   });
 
+
+  const fetcher = async(url: string) => {
+    const response = await fetch(url)
+    const data = await response.json();
+    return data;
+  }
+
+  async function getEvacuationPoints (currBounds: any){
+    // const {data, error} = useSWR('/points/evacuation.geojson', fetcher); useSWRを理解する必要がある
+    const response = await fetch('/points/evacuation.geojson')
+    const data = await response.json();
+    if(!data) {
+      return [];
+    }
+    const filteredPoints: any = [];
+    data.features.filter((point: any) => {
+        const pointCoordinates = point.geometry.coordinates;
+        if (
+            pointCoordinates[0] >= currBounds._southWest.lat &&
+            pointCoordinates[0] <= currBounds._northEast.lat &&
+            pointCoordinates[1] >= currBounds._southWest.lng &&
+            pointCoordinates[1] <= currBounds._northEast.lng
+          ) {
+            filteredPoints.push(point);
+          }
+    });
+    return filteredPoints;
+  }
+
   useEffect(() => {
     const map: any = mapRef.current;
-    console.log(map)
-    if (map) {
+    if (map && props.zoomCurr) {
       // map.setView([35.682839, 139.759455], 5); // 日本地図を全体表示
       map.flyTo(props.center, props.zoom); // 現在位置にズームして移動
     }
@@ -53,21 +82,10 @@ const Map = (props: any) => {
     };
 
     const bounds = map.getBounds();
+    const data: any = await getEvacuationPoints(bounds);
 
-    // boundsを送り、可視範囲内のポイントを取得する
-    console.log("避難所取得開始")
-    const response = await fetch('/api/evacuation-point', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(bounds),
-    })
-    console.log("避難所取得終了")
 
-    const data = await response.json();
-    console.log(data.points)
-    setEvacuationPoints(data.points);
+    setEvacuationPoints(data);
   };
 
   return (
@@ -99,7 +117,7 @@ const Map = (props: any) => {
           props.markerON ?
           <Marker position={props.center ?? [34.6864, 135.52]}>
             <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
+              現在地
             </Popup>
           </Marker>
           : null

@@ -42,6 +42,7 @@ const Judgement =() => {
         zoom={14} 
         style={{width: "100%", height: "400px"}}
         markerON={true}
+        zoomCurr={true}
       />
     );
   }
@@ -70,23 +71,23 @@ const Judgement =() => {
 
   useEffect(() => {
     // geolocation APIで現在位置を取得し、座標と県を取得
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   const { latitude, longitude } = position.coords;
-    //   setCurrPoint({
-    //     latitude: latitude, 
-    //     longitude: longitude
-    //   });
-    // });
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setCurrPoint({
+        latitude: latitude, 
+        longitude: longitude
+      });
+    });
 
       // テスト用(津波範囲内の座標): 139.93991418300004,40.43372814600008
       // テスト用(沖の座標): 130.410000000000000,34.014000000000000
       // テスト用(未公開都道府県-東京): 139.813200000000000, 35.666600000000000
       // テスト用(海外): 127.856000000000000,35.159000000000000
-      const currPoint = {
-        latitude:42.9649,
-        longitude:144.0772,
-      }
-      setCurrPoint(currPoint);
+      // const currPoint = {
+      //   latitude:42.9649,
+      //   longitude:144.0772,
+      // }
+      // setCurrPoint(currPoint);
   }, []);
 
   useEffect(() =>{
