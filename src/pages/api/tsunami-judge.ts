@@ -1,4 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import zlib from 'zlib';
+import { promisify } from 'util';
 import fs from 'fs';
 import path from 'path';
 import * as turf from '@turf/turf';
@@ -85,15 +87,25 @@ export default async function handler(
       })
     }
 
-    const url = domain! + path! + S3_fileName;
-    const response: any = await axios.get(url)
-    const data: any = response.data;
 
-    if(!data && !data.features) {
+    const url = domain! + path! + S3_fileName;
+    const response: any = await axios.get(url, { responseType: 'arraybuffer' })
+    let data: any;
+    // gzip解凍
+    try{
+      const gunzipAsync = promisify(zlib.gunzip);
+      const unzip: any = await gunzipAsync(response.data);
+      data = JSON.parse(unzip)
+    } catch (err){
+      console.log(err)
+    }
+
+    if(!data || !data.features) {
       res.status(STATUS_CODES.BAD).json({
         error_code: ERROR_CODES.SERVER_ERROR,
       })
     }
+
     // ポリゴンデータ
     const point = turf.point([currPoint.longitude, currPoint.latitude]);
     const inRangePolygon = data.features.find((feature: any) => {
@@ -112,7 +124,6 @@ export default async function handler(
     }
     // const polygonCollection: any = turf.featureCollection(polygonFeatures.features);
   }).catch((err) => {
-    console.log(err)
     res.status(STATUS_CODES.BAD)
   })
 }
