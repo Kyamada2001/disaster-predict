@@ -80,12 +80,13 @@ const Judgement =() => {
     });
 
       // テスト用(津波範囲内の座標): 139.93991418300004,40.43372814600008
+      //　135.4645, 34.7169
       // テスト用(沖の座標): 130.410000000000000,34.014000000000000
       // テスト用(未公開都道府県-東京): 139.813200000000000, 35.666600000000000
       // テスト用(海外): 127.856000000000000,35.159000000000000
       // const currPoint = {
-      //   latitude:42.9649,
-      //   longitude:144.0772,
+      //   latitude:34.7169,
+      //   longitude:135.4645,
       // }
       // setCurrPoint(currPoint);
   }, []);
@@ -104,7 +105,6 @@ const Judgement =() => {
         body: JSON.stringify(currPoint),
       }).catch((err) => {
         setIsLoading(false);
-        setErrCode(ERROR_CODES.SERVER_ERROR)
       });
       const data = await response.json();
 
@@ -116,7 +116,7 @@ const Judgement =() => {
           setIsInside(false);
         }
       }else {
-        setErrCode(ERROR_CODES.SERVER_ERROR)
+        setErrCode(data?.error_code)
       }
       setIsLoading(false);
     }).catch((err) => {
