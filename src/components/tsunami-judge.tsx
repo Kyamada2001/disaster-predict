@@ -169,14 +169,21 @@ const Judgement =() => {
         if(isInside && inRangePolygon) {
           message = (
             <>
-              <p className='inline-block'>あなたの現在位置は危険です。<br/>津波が浸水する恐れがあります</p><br/>
+            <Image src={"/danger.png"} alt="" width={30} height={10}></Image>
+              <p className='inline-block'>
+                あなたの現在位置は危険です。<br/>津波が浸水する恐れがあります
+              </p>
               <p>津波浸水深：{inRangePolygon.inRangePolygon.properties.A40_003}</p>
             </>
           )
         } else {
           message = (
             <>
-              <p className='inline-block'>あなたの現在位置は安全です。<br/>※想定よりも大きい津波が来ることがございます。</p>
+               <Image src={"/safety.jpeg"} alt="" width={30} height={8}></Image>
+                <p className='inline-block'>
+                  あなたの現在位置は安全です。
+                </p>
+                <p>※想定よりも大きい津波が来ることがございます。</p>
             </>
           );
         }
