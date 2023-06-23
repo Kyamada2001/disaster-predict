@@ -9,19 +9,19 @@ function IndexPage() {
       <Head>
         <title>津波想定被害チェッカー</title>
       </Head>
-        <Header/>
-        <div className="flex flex-col justify-center items-center h-screen">
-          <div>
-            <Link href="tsunami-judgment">
-              現在位置が安全か判定する
-            </Link>
-          </div>
-          <div>
-            <Link href="map">
-              津波被害想定マップへ移動
-            </Link>
-          </div>
+      <Header/>
+      <div className="flex flex-col justify-center items-center h-screen space-y-4">
+        <div className="bg-sky-400 rounded-sm px-2 py-2">
+          <Link href="tsunami-judgment">
+            現在位置が安全か判定する
+          </Link>
         </div>
+        <div className="bg-sky-400 rounded-sm px-2 py-2">
+          <Link href="map">
+            津波被害想定マップへ移動
+          </Link>
+        </div>
+      </div>
     </>
   );
 }

@@ -134,7 +134,7 @@ const Judgement =() => {
             errMessage= (
               <>
                 <div>
-                  <div>申し訳ありません。<br/>{currPref}はデータが公開されていないため、情報を取得することができません。<br/>地方自治体の避難情報に従ってください。</div>
+                  <div>申し訳ありません。<br/>{currPref}は津波浸水想定データが公開されていないため、情報を取得することができません。<br/>地方自治体の避難情報に従ってください。</div>
                 </div>
               </>
             );
@@ -169,14 +169,14 @@ const Judgement =() => {
         if(isInside && inRangePolygon) {
           message = (
             <>
-              <p className='inline-block'>津波が浸水する恐れがあります。</p>
+              <p className='inline-block'>あなたの現在位置は危険です。<br/>津波が浸水する恐れがあります</p><br/>
               <p>津波浸水深：{inRangePolygon.inRangePolygon.properties.A40_003}</p>
             </>
           )
         } else {
           message = (
             <>
-              <p className='inline-block'>津波による危険は少ないとされています。<br/>※想定よりも大きい津波が来ることがございます。</p>
+              <p className='inline-block'>あなたの現在位置は安全です。<br/>※想定よりも大きい津波が来ることがございます。</p>
             </>
           );
         }
