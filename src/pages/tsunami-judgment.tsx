@@ -12,7 +12,7 @@ function MapPage() {
   return (
     <div>
       <Head>
-        <title>津波想定被害チェッカー</title>
+        <title>津波浸水チェッカー</title>
       </Head>
       <Header/>
       <div className="container mx-auto lg:px-28 space-y-3 my-1 h-screen">

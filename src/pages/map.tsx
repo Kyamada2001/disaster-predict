@@ -16,7 +16,7 @@ export default function MapPage() {
   return (
     <>
     <Head>
-      <title>津波想定被害チェッカー</title>
+      <title>津波浸水チェッカー</title>
     </Head>
     <Header/>
     <Map />
