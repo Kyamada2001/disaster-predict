@@ -20,7 +20,7 @@ function MapPage() {
         <div className="flex flex-col space-y-3 items-center">
           <TsunamiDudge/>
           <Link href="/map" className="px-2 py-2 rounded-sm bg-sky-400 text-center inline-block">
-              マップへ遷移
+            全体マップへ
           </Link>
         </div>
       </div>

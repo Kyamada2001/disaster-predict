@@ -173,7 +173,7 @@ const Judgement =() => {
               <p className='inline-block'>
                 あなたの現在位置は危険です。<br/>津波が浸水する恐れがあります
               </p>
-              <p>津波浸水深：{inRangePolygon.inRangePolygon.properties.A40_003}</p>
+              <p className='marker-water'>津波浸水深：{inRangePolygon.inRangePolygon.properties.A40_003}</p>
             </>
           )
         } else {
