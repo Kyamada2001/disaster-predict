@@ -8,7 +8,7 @@ function IndexPage() {
   return (
     <>
       <Head>
-        <title>津波浸水チェッカー</title>
+        <title>津波危険度チェッカー</title>
       </Head>
       <Header/>
       <div className="flex flex-col justify-center items-center h-screen space-y-2 pt-3 px-10">

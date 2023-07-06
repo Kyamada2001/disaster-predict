@@ -9,7 +9,7 @@ export const Header = memo(function Header() {
                 <Link href="/">
                     <Image src="/favicon.ico" width={60} height={60} alt=""></Image>
                 </Link>
-                <p className='font-serif font-bold text-xl'>津波浸水チェッカー</p>
+                <p className='font-serif font-bold text-xl'>津波危険度チェッカー</p>
             </div>
         </header>
     );
