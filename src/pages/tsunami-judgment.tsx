@@ -16,7 +16,7 @@ function MapPage() {
       </Head>
       <Header/>
       <div className="container mx-auto lg:px-28 space-y-3 my-1 h-screen">
-        <h1 className="text-xl">津波想定被害判定</h1>
+        <h1 className="text-xl">津波危険度チェック</h1>
         <div className="flex flex-col space-y-3 items-center">
           <TsunamiDudge/>
           <Link href="/map" className="px-2 py-2 rounded-sm bg-sky-400 text-center inline-block">
