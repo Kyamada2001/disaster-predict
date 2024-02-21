@@ -95,9 +95,25 @@ export default async function handler(
     try{
       const gunzipAsync = promisify(zlib.gunzip);
       const unzip: any = await gunzipAsync(response.data);
-      data = JSON.parse(unzip)
+      // data = JSON.parse(unzip)
+      const unzippedString = unzip.toString();
+      if(isJSON(unzippedString)) {
+        const data = JSON.parse(unzippedString)
+      } else {
+        throw new Error("JSON形式ではありません")
+      }
     } catch (err){
+      console.log("データの解凍でエラーが発生しました")
       console.log(err)
+    }
+
+    function isJSON(str: string) {
+      try {
+        JSON.parse(str);
+        return true
+      } catch(e) {
+        return false
+      }
     }
 
     if(!data || !data.features) {
